@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registration</title>
+  </head>
+
+  <body>
+    <h1>Registration</h1>
+    <form id="reg-form">
+      <input type="text" autocomplete="off" id="Name" placeholder="Username" />
+      <input
+        type="text"
+        autocomplete="off"
+        id="Last_Name"
+        placeholder="Last Name"
+      />
+
+      <input
+        type="date"
+        autocomplete="off"
+        id="Date_Birth"
+        placeholder="Date_Birth"
+      />
+      <input type="email" autocomplete="off" id="Email" placeholder="Email" />
+      <input
+        type="password"
+        autocomplete="off"
+        id="Password"
+        placeholder="Password"
+      />
+
+      <input type="submit" value="Submit Form" />
+    </form>
+
+    <script>
+      const form = document.getElementById("reg-form");
+      form.addEventListener("submit", registerUser);
+
+      async function registerUser(event) {
+        event.preventDefault();
+        const Name = document.getElementById("Name").value;
+        const Last_Name = document.getElementById("Last_Name").value;
+        const Date_Birth = document.getElementById("Date_Birth").value;
+        const Email = document.getElementById("Email").value;
+        const Password = document.getElementById("Password").value;
+        const result = await fetch("/api/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            Name,
+            Last_Name,
+            Date_Birth,
+            Email,
+            Password,
+          }),
+        }).then((res) => res.json());
+
+        if (result.status === "ok") {
+          // everythign went fine
+          alert("Success");
+        } else {
+          alert(result.error);
+        }
+      }
+    </script>
+  </body>
+</html>
